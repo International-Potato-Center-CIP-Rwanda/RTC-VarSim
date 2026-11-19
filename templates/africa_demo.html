@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RTC VarSim | Root and Tuber Crops Variety Similarity Index</title>
+  <link rel="stylesheet" href="/assets/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/assets/app.css">
+  <link rel="stylesheet" href="/assets/africa-demo.css?v={{ demo_style_version }}">
+</head>
+<body class="demo-page">
+  <header class="topbar"><a class="brand" href="/" title="Root and Tuber Crops Variety Similarity Index" aria-label="RTC VarSim — Root and Tuber Crops Variety Similarity Index">RTC <span>VarSim</span></a><a class="home" href="/">Rwanda pilot</a><span class="top-tag">AFRICA MONTHLY CLIMATE <i>RESEARCH PREVIEW</i></span></header>
+  <form hidden>{% csrf_token %}</form>
+  <main class="workspace demo-workspace">
+    <aside class="sidebar demo-controls">
+      <div class="panel-title"><h1>RTC VARSIM PARAMETERS</h1><span>Africa monthly climate · 1991–2020</span></div>
+
+      <section><h2>Crop & variety</h2>
+        <form method="get" id="catalogue-form"><div class="two">
+          <label>Crop<select id="crop" name="crop"><option value="potato" {% if crop == 'potato' %}selected{% endif %}>Potato</option><option value="sweetpotato" {% if crop == 'sweetpotato' %}selected{% endif %}>Sweetpotato</option></select></label>
+          <label>Variety<select id="variety" name="variety">{% for v in varieties %}<option value="{{ v.id }}" data-cycle-days="{{ v.cycle_days.1|default_if_none:'' }}" {% if selected.id == v.id %}selected{% endif %}>{{ v.name }}</option>{% endfor %}</select></label>
+        </div><noscript><button class="secondary-button">View variety</button></noscript></form>
+        <div class="variety-summary"><strong id="variety-title">{{ selected.name }}</strong></div>
+        {% if selected.official_name and selected.official_name != selected.name %}<p class="hint">Rwanda guide name: {{ selected.official_name }}<br>Synonym source: {{ selected.synonym_source }}</p>{% endif %}
+        <div class="traits">
+          <div><small>Temperature</small>{% if selected.has_ranges %}{{ selected.temperature_range.0 }}–{{ selected.temperature_range.1 }} °C{% else %}Not available{% endif %}<small>Source: {{ selected.field_sources.temperature_range }}</small></div>
+          <div><small>Annual rainfall · catalogue range</small>{% if selected.has_ranges %}{{ selected.rainfall_range.0 }}–{{ selected.rainfall_range.1 }} mm/year{% else %}Not available{% endif %}<small>Source: {{ selected.field_sources.rainfall_range }}</small></div>
+          <div><small>Preferred soil pH</small>{% if selected.has_ranges %}{{ selected.ph_range.0|floatformat:1 }}–{{ selected.ph_range.1|floatformat:1 }}{% else %}Not available{% endif %}<small>Source: {{ selected.field_sources.ph_range }}</small></div>
+          <div><small>Growing period</small>{{ selected.cycle_days.0|floatformat:0 }}{% if selected.cycle_days.0 != selected.cycle_days.1 %}–{{ selected.cycle_days.1|floatformat:0 }}{% endif %} days<small>Source: {{ selected.field_sources.cycle_days }}</small>{% if selected.previous_values.cycle_days %}<small>Previous value: {{ selected.previous_values.cycle_days.0|floatformat:0 }}–{{ selected.previous_values.cycle_days.1|floatformat:0 }} days · tolerance catalogue</small>{% endif %}</div>
+          {% for trait in disease_traits %}<div><small>{{ trait.label }}</small>{{ trait.value }}<small>Source: {{ trait.source }}</small>{% if trait.previous %}<small>Previous value: {{ trait.previous }} · tolerance catalogue</small>{% endif %}</div>{% endfor %}
+        </div>
+        {% if selected.reference_only %}<p class="hint">Climate and soil ranges not yet available for this variety</p>{% endif %}
+        {% if selected.guide_reference %}
+        <div class="traits guide-traits">
+          <div><small>Code</small>{{ selected.guide_reference.code }}<small>Source: {{ selected.guide_source }}</small></div>
+          <div><small>Year of release</small>{{ selected.guide_reference.release_year }}<small>Source: {{ selected.guide_source }}</small></div>
+          <div><small>Agro-ecological adaptation</small>{{ selected.guide_reference.adaptation_text }}<small>Source: {{ selected.guide_source }}</small></div>
+          <div><small>Potential yield (not predicted yield)</small>{{ selected.guide_reference.potential_yield_t_ha.0|floatformat:"-1" }}{% if selected.guide_reference.potential_yield_t_ha.0 != selected.guide_reference.potential_yield_t_ha.1 %}–{{ selected.guide_reference.potential_yield_t_ha.1|floatformat:"-1" }}{% endif %} t/ha<small>Source: Rwanda Potato Variety Description Guide 2025, p. {{ selected.guide_reference.field_pages.potential_yield_t_ha }}</small></div>
+          <div><small>Use</small>{{ selected.guide_reference.usage|join:", "|default:"Not reported" }}<small>Source: Rwanda Potato Variety Description Guide 2025, p. {{ selected.guide_reference.summary_page }}</small></div>
+        </div>
+        {% if selected.guide_reference.conflicts %}<details><summary>Source discrepancies retained</summary>{% for issue in selected.guide_reference.conflicts %}<p class="small">{{ issue.field }} · summary: {{ issue.summary|default:"Not reported" }} · profile: {{ issue.profile|default:"Not reported" }}. {{ issue.resolution }}</p>{% endfor %}</details>{% endif %}
+        {% endif %}
+        {% if same_criteria %}<p class="hint same-criteria">Same criteria as: {{ same_criteria|join:", " }} – maps will be identical</p>{% endif %}
+        <p class="tolerance-note">Variety tolerances are shown for context and used in the variety-criteria check; they are not included in the separate climate-similarity score.</p>
+        <details><summary>Source & variety notes</summary><p class="small">{{ selected.record_source }} · {{ selected.source.sheet }}!{{ selected.source.range }}</p><p class="small">{{ selected.attribution }}</p><p class="small">{{ selected.notes }}</p><p class="small">Observation count is not a set of georeferenced reference sites.</p></details>
+      </section>
+
+      <section><h2>Climate datasets</h2><div class="two"><button type="button" class="choice" disabled>WorldClim · not connected</button><button type="button" class="choice active" aria-pressed="true">CHELSA · ~1 km</button></div><p class="hint">Monthly climate · 1991–2020 · sampled Africa display grid</p></section>
+
+      <section class="variety-screen-section"><h2>A. Variety criteria · exploratory</h2><p class="hint">Choose a planting month. Temperature uses the catalogue’s upper cycle duration and starts on day 1 of that month; it includes complete monthly normals for any months touched. Rainfall is checked annually because the catalogue range is annual.</p><label>Planting month<select id="planting-month"></select></label><p id="cycle-summary" class="hint"></p><button id="screen-summary" class="compute" type="button">Check variety criteria</button><div class="criterion-tabs" role="group" aria-label="View an individual criterion"><button id="screen-variety" type="button">Temperature</button><button id="screen-rainfall" type="button">Rainfall</button><button id="screen-ph" type="button">Soil pH</button><button id="screen-summary-tab" type="button">Summary</button></div><p class="hint">Summary counts temperature over the crop cycle, annual rainfall and SoilGrids pH (0–30 cm), without weights. The tabs show each criterion separately. Individual totals use available data for that criterion; Summary requires all three. Missing data are not evaluable, never failures.</p><p id="screen-status" class="status" role="status"></p></section>
+
+      <section class="similarity-section"><h2>B. Climate similarity</h2>
+        <section><h3>Reference site</h3><p class="hint">Click a land pixel on the map or enter coordinates (longitude, latitude).</p><div class="two"><label>Longitude<input id="longitude" type="number" min="-180" max="180" step="any" placeholder="e.g. 30.06"></label><label>Latitude<input id="latitude" type="number" min="-90" max="90" step="any" placeholder="e.g. -1.95"></label></div><button id="load-site" class="secondary-button" type="button">Load reference climate</button><p id="site-status" class="hint" role="status">No reference site selected yet.</p><div id="site-values" class="monthly-values" aria-live="polite"></div></section>
+        <section><h3>Months to compare</h3><div class="two"><label>From<select id="month-start"></select></label><label>Through<select id="month-end"></select></label></div><p class="hint">Calendar months are compared at every location. December to March crosses the year boundary; there is no local season or crop-cycle adjustment.</p></section>
+      </section>
+
+      <section><div class="section-title"><h2>Exploratory settings</h2><button id="demo-settings" class="text-button" type="button">Fill example settings</button></div><p class="hint">Temperature and rainfall are included. Set positive weights that sum to 1. Coefficients use the units shown.</p>
+        <div class="parameter-head"><span>VARIABLE</span><span>WEIGHT</span><span>COEFFICIENT</span></div>
+        <div class="parameter-row"><strong>Temperature</strong><small>°C</small><input id="temperature-weight" type="number" min="0.001" max="1" step="any" placeholder="0.5"><input id="temperature-coefficient" type="number" min="0.001" step="any" placeholder="°C"></div>
+        <div class="parameter-row"><strong>Rainfall</strong><small>mm/month</small><input id="rainfall-weight" type="number" min="0.001" max="1" step="any" placeholder="0.5"><input id="rainfall-coefficient" type="number" min="0.001" step="any" placeholder="mm"></div>
+        <p id="weight-total" class="weight-total">Weight total: not set</p>
+        <p id="rationale" class="rationale" hidden>Demo values: 10 °C and 50 mm/month were reported as legacy AFSA code values; their original source has not been independently confirmed. The 50/50 weights are an assumption. These settings are for demonstration only.</p>
+        <label class="acknowledge"><input id="acknowledge" type="checkbox"> I understand this is an exploratory climate comparison, not variety suitability or a yield prediction.</label>
+        <button id="compute" class="compute" type="button" disabled>Compute monthly similarity</button><p id="compute-status" class="status" role="status">Choose a reference site, set parameters, then calculate.</p>
+      </section>
+
+      <details class="audit-note"><summary>Data & scientific limitations</summary><p>Climate tiles were generated for 1991–2020 and passed file integrity checks. A separate offline audit found five raster cells per layer not accounted for by its polygon coverage check; this is under review. It also flagged some unusually high rainfall values for human review. Units and independent source recomputation were not completed by that offline audit.</p><p>The map calculates one native pixel per 16 × 16 block (about 15 km at the equator); the reference point is sampled at native resolution. Variety tolerances and observation counts do not enter the score. This is not a crop suitability model or yield prediction.</p></details>
+    </aside>
+
+    <section class="map-panel demo-map-panel" aria-label="Africa monthly climate similarity map">
+      <div class="map-heading"><div><span class="eyebrow">ENVIRONMENTAL DATA</span><h2 id="map-title">Select a reference location</h2></div><span class="data-badge">CHELSA · 1991–2020 · monthly</span></div>
+      <div class="map-frame"><div id="map" role="region" aria-label="Map of Africa: click to choose a reference site"></div><div class="map-views"><button id="africa-view" type="button">Africa view</button><button id="reference-view" type="button">Reference view</button></div>
+        <div id="legend" class="legend score-legend" hidden><strong>Exploratory similarity index</strong><div class="score-gradient"></div><div class="score-labels"><span>0% · lower</span><span>100% · higher</span></div><small>After calculation, click any colored map location to see its index. Rescaled score, not a probability or variety suitability.</small></div>
+        <div id="map-message" class="map-message">Click a land pixel to choose a reference site.</div>
+      </div>
+      <div class="map-footer"><span id="map-footer-primary">Higher scores mean closer selected-month climate under the chosen coefficients.</span><span id="map-note" class="map-note">Monthly similarity preview · no variety suitability result</span><span>Not crop suitability</span></div>
+      <div id="downloads" class="download-row" hidden></div>
+      <div class="under-map"><b>About this comparison</b><p>The monthly climate similarity calculation is separate from the variety temperature screening. Neither result is a validated crop suitability model or yield prediction.</p></div>
+    </section>
+  </main>
+  <script src="/assets/leaflet/leaflet.js"></script><script src="/assets/africa-demo.js?v={{ demo_script_version }}"></script>
+</body>
+</html>

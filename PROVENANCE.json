@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/izuku-franck1555/AFSA-Maize-land-suitability-Tanzania",
+  "archive_sha256": "fa82e2de363390ec02279fa1d98dd882be537ea935f147e882880a0bee363ab3",
+  "files_sha256": {
+    "LICENSE": "cdd7789de530a834d49b4e7903533665c9336590b4d46ac4dc63e4f25a9a172b",
+    "afsa-temp/pymtasa-agroecology/afsa/utils.py": "7836bfa728f9b729160397135b0c1dbe95d3887fbecd5344235fe005acee949c",
+    "afsa-temp/pymtasa-agroecology/afsa/similarity.py": "d2a01f42ce550159e8868559a3d063fb74314bf3f43854a4606484f5f381854e"
+  }
+}

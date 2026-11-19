@@ -1,0 +1,4 @@
+Django==5.2.6
+numpy>=1.26,<3
+rasterio>=1.4,<2
+shapely>=2,<3
