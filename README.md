@@ -10,8 +10,8 @@ Django research platform for potato and sweetpotato variety criteria across Afri
 
 - Temperature: CHELSA 1991–2020 monthly means, compared inclusively with catalogue limits for every calendar month touched by the upper-bound crop cycle, starting on day 1 of the planting month. Temperature shows the number of cycle months in range.
 - Rainfall: sum of all twelve monthly normals, compared with the annual catalogue range. Cycle rainfall and its annual share are descriptive popup information.
-- Soil pH: SoilGrids pH in water at 0–30 cm, thickness-weighted arithmetic mean of the 0–5, 5–15 and 15–30 cm layers (weights 5/30, 10/30 and 15/30).
-- Summary: unweighted count of three satisfied criteria (0–3). Every cycle temperature month must be in range for that criterion to pass. Missing inputs make a cell not evaluable, never a failure. Sea and outside-Africa cells are transparent.
+- Soil pH: SoilGrids pH in water at 0-30 cm, thickness-weighted arithmetic mean of the 0-5, 5-15 and 15-30 cm layers (weights 5/30, 10/30 and 15/30).
+- Summary: unweighted count of three satisfied criteria (0-3). Every cycle temperature month must be in range for that criterion to pass. Missing inputs make a cell not evaluable, never a failure. Sea and outside-Africa cells are transparent.
 
 The sampled Africa display uses one native cell per 16 × 16 block (roughly 15 km at the equator). Monthly normals do not represent daily extremes. A single planting month is applied across Africa. The separate climate-similarity workflow uses its own coefficients and does not change the variety criteria.
 
@@ -70,7 +70,7 @@ New-Item -ItemType Directory -Force data/source, assets | Out-Null
 .\.venv\Scripts\python.exe plan_africa_tiles.py
 ```
 
-The inventory reads the CHELSA v2.1 global monthly `tas` and `pr` object listing for 1991–2020. The probe records source units, conversion metadata and grid geometry, including `data/probe-tas-1991-01.json`. The tile planner needs that probe and `data/africa-extraction-mask.geojson`.
+The inventory reads the CHELSA v2.1 global monthly `tas` and `pr` object listing for 1991-2020. The probe records source units, conversion metadata and grid geometry, including `data/probe-tas-1991-01.json`. The tile planner needs that probe and `data/africa-extraction-mask.geojson`.
 
 ### 2. CHELSA 1991–2020 monthly normals and display grid
 
@@ -150,14 +150,14 @@ An authorized local data/reference/rab_sweetpotato_2018_internal.json can overri
 
 | Input | Source and processing used here | Distribution in this repository |
 |---|---|---|
-| Monthly air temperature and precipitation | [CHELSA-monthly v2.1](https://www.chelsa-climate.org/datasets/chelsa_monthly), `tas` and `pr`, January 1991–December 2020. The scripts enumerate the original [CHELSA object store](https://os.unil.cloud.switch.ch/chelsa02/), validate each raster's scale, offset, units, grid and identity, and calculate each calendar-month mean over all 30 annual inputs. | Rasters, extracts, downloaded bytes and generated normals excluded because of size and local processing state. Rebuild using the commands above and retain source metadata. |
-| Soil acidity | [ISRIC SoilGrids](https://isric.org/explore/soilgrids), mean pH in water at 0–5, 5–15 and 15–30 cm; [data access documentation](https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs_02.html). Native 250 m predictions are converted from pH-times-ten, area-averaged independently onto CHELSA, then combined by thickness. | Local rasters excluded. SoilGrids maps are CC BY 4.0; cite ISRIC and retain the source-depth provenance when redistributing derived data separately. |
+| Monthly air temperature and precipitation | [CHELSA-monthly v2.1](https://www.chelsa-climate.org/datasets/chelsa_monthly), `tas` and `pr`, January 1991-December 2020. The scripts enumerate the original [CHELSA object store](https://os.unil.cloud.switch.ch/chelsa02/), validate each raster's scale, offset, units, grid and identity, and calculate each calendar-month mean over all 30 annual inputs. | Rasters, extracts, downloaded bytes and generated normals excluded because of size and local processing state. Rebuild using the commands above and retain source metadata. |
+| Soil acidity | [ISRIC SoilGrids](https://isric.org/explore/soilgrids), mean pH in water at 0-5, 5-15 and 15-30 cm; [data access documentation](https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs_02.html). Native 250 m predictions are converted from pH-times-ten, area-averaged independently onto CHELSA, then combined by thickness. | Local rasters excluded. SoilGrids maps are CC BY 4.0; cite ISRIC and retain the source-depth provenance when redistributing derived data separately. |
 | Rwanda potato descriptions | Borus et al. (2025), [Rwanda Potato Variety Description Guide](https://doi.org/10.4160/cip.2025.03.001). An external, reviewed JSON extraction records source pages and discrepancies for local use. | Neither the PDF nor the extraction is included. Obtain the public guide from its DOI and the reviewed extraction from the project team; preserve CC BY 4.0 attribution in any separately authorized redistribution. |
 | Boundaries | [geoBoundaries CGAZ](https://www.geoboundaries.org/), CC BY 4.0; see THIRD_PARTY_NOTICES.md. Extraction-mask geometry and simplified display context are separate products. | Source GeoPackage, generated extraction mask and generated basemap excluded; source checksum and CRS checks are part of preparation. |
 | Tolerance ranges | Authorized internal tolerance workbook and its imported JSON. The quoted institutional attributions are not independent verification. | Workbook and catalogue excluded for confidentiality; obtain them from the project team. |
 | Reviewed internal references and field validation | Optional authorized RAB reference overlay; unpublished trial workbooks and local comparison tables. | Never included in the clean copy or repository. Their absence can change the effective cycle or resistance fields; a source-only clone must not be claimed to reproduce the fully configured research installation. |
 
-For CHELSA methodology cite Karger et al. (2017), *Climatologies at high resolution for the earth's land surface areas*, Scientific Data 4, 170122, [doi:10.1038/sdata.2017.122](https://doi.org/10.1038/sdata.2017.122). The current provider page supplies a newer monthly-data citation, [doi:10.16904/envidat.686](https://doi.org/10.16904/envidat.686); preserve the metadata and rights for the exact v2.1 objects used, rather than assuming that a later product announcement describes an older local archive. The project's **1991–2020 normals are built by these scripts**, not obtained by substituting a different ready-made climatology period.
+For CHELSA methodology cite Karger et al. (2017), *Climatologies at high resolution for the earth's land surface areas*, Scientific Data 4, 170122, [doi:10.1038/sdata.2017.122](https://doi.org/10.1038/sdata.2017.122). The current provider page supplies a newer monthly-data citation, [doi:10.16904/envidat.686](https://doi.org/10.16904/envidat.686); preserve the metadata and rights for the exact v2.1 objects used, rather than assuming that a later product announcement describes an older local archive. The project's **1991-2020 normals are built by these scripts**, not obtained by substituting a different ready-made climatology period.
 
 The public Rwanda JSON is not in this source-only release. There is no general automatic PDF-to-catalogue importer: the external structured extraction was reviewed manually against the guide. To update that local reference, retain page citations and source conflicts, review all records, and verify the associated PDF checksum outside the publication tree. The repository tests validate loader behavior using deliberately fabricated records; they do not certify an external guide transcription. Do not infer environmental ranges from altitude descriptions.
 
@@ -198,7 +198,7 @@ These entries describe the supported workflow, not a list of scripts to execute 
 | `platform_app/africa_demo.py` | Africa data loading, reference sampling, criteria/summary endpoints, result writing and clicked-cell inspection. |
 | `platform_app/reference_catalogue.py` | Compose tolerance and reviewed public/internal references in memory, with field sources and previous values. |
 | `platform_app/variety_screen.py` | Cycle-month selection, temperature fractions, annual rainfall check, three-criterion combination and equivalent-profile matching. |
-| `platform_app/soil_ph.py` | Thickness-weighted 0–30 cm pH calculation requiring all three source layers. |
+| `platform_app/soil_ph.py` | Thickness-weighted 0-30 cm pH calculation requiring all three source layers. |
 | `platform_app/monthly.py` | Separate selected-month climate-similarity calculation and month-interval expansion. |
 | `platform_app/engine.py` | Static raster similarity used by the legacy Rwanda pilot; no seasonal rotation in this local engine. |
 | `platform_app/computation.py` | Validate and execute a pilot computation and save its outputs/provenance. |
