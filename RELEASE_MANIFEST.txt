@@ -1,14 +1,14 @@
-# RTC VarSim v1.0.0 public source-only approval manifest; 2026-11-19.
-# 74 files total, including this manifest; 73 byte checksums below.
-# Parent commit: 06855f0a3ce2bff219372d83b751e4be5f6188eb.
-# No data directory, dataset, catalogue, trial workbook, variety inventory, research PDF, environment, secret or personal path.
-# Working-copy byte checksums exclude this manifest itself.
+# RTC VarSim source-only documentation update; 2026-11-19.
+# 74 files total, including this manifest; 73 working-copy byte checksums below.
+# Parent for the documentation update: 42913fd54e69ee2d89d003fad0193bb3073f0a0d.
+# The v1.0.0 tag and its original manifest remain unchanged.
+# No data directory or research inputs are included.
 5f3a9e85d589e10d173e1d0351ff93575fc9193754314448ed8efc319f5fb41f  .gitignore
-a2d255816101a3a4fc8c854b6556a5ad9abdb4a2a3f3f93cd01efdbce383e3c3  CHANGELOG.md
+b34e27ae3c3e4dbf1ae5f9744574990f1d2fbdb43345194c848dcc4dfc7ba3c9  CHANGELOG.md
 6266cd230276869cad50535b1425e6a85219a2ec8b236581382a494861829d50  LICENSE
 4cbbb5669cbbc4c3d1c4daa07dc1233548fd2a1d32b2f55eeff6c0b33051dbae  PROVENANCE.json
-16ddb02cdbf0af07f94e9979be164ba466051e5aaad269986382dd88dbe72e8e  README.md
-80c2688e7549463ded67b09749de0a73c99483cbc8a9c087b15f1914ca5130b6  RELEASE.md
+c09667baad95fcdb4d3561a15752c96d87ec1d0db32f04a56de076ed77c9c3dd  README.md
+298572983572a520064a71f05bc7a7b547bb048a0b85875fbed91e6b34980adf  RELEASE.md
 9fd575c06bf0cdaccdcbfdae978841ccda1a8c7e6a31044a9b3b2f34787d7519  THIRD_PARTY_NOTICES.md
 8e87b93eebd1e5bfd3445bc06cfdc0f18cd4c89ae9ca9e4800c9dc72bbd7da3e  africa_climate_jobs.py
 5583371fe592ace1b8c0c8310700d99ac50ca3ebb43273cc90ca1f78d1fd5357  assets/africa-demo.css

@@ -2,7 +2,7 @@ Spatial variety best bet location mapping
 
 # RTC VarSim
 
-**Research code; v1.0.0 prepared, not yet tagged or published.** RTC VarSim compares environmental data with potato and sweetpotato variety criteria across Africa. The historical local preparation folder is named AFSA-VarScout-private. A source-only clone needs authorized local inputs before it can display research results.
+**Research code, release v1.0.0.** RTC VarSim compares environmental data with potato and sweetpotato variety criteria across Africa. A source-only clone needs authorized local inputs (see “Data”) before it can display research results.
 
 Django research platform for potato and sweetpotato variety criteria across Africa. The main interface is `/demo/`; `/` retains the Rwanda pilot. Results are exploratory criteria checks, not validated crop suitability or yield predictions.
 
@@ -33,7 +33,7 @@ Core tests use synthetic inputs and temporary directories. Four legacy integrati
 
 To supply a private key in the current PowerShell session, assign `$env:DJANGO_SECRET_KEY` locally before starting Django. Do not commit its value. No `.env` loader is installed: setting a value in a `.env` file alone will not load it. `.env` files and private-key files are ignored by Git.
 
-## Internal variety catalogue: required and not distributed
+## Data
 
 The variety catalogue comes from the internal tolerance workbook supplied for this research (distinct from the RAB 2018 reference), with expert-provided potato and sweetpotato records. It is not supplied by the upstream AFSA repository or by the paper cited below. Obtain the authorized workbook, or the current authorized `catalogue.json`, directly from the project team. This repository contains neither the workbook nor its catalogue records.
 
@@ -134,7 +134,7 @@ The paper describes AFSA; it does not validate the present variety-criteria work
 
 The publication destination is the public [CIP Rwanda RTC-VarSim repository](https://github.com/International-Potato-Center-CIP-Rwanda/RTC-VarSim). This source-only release contains **no data/ directory and no exceptions** in .gitignore. It excludes the tolerance catalogue, RAB catalogue/overlay, unpublished trials, source inventories of varieties, validation CSVs, research PDFs (including Mwanga et al. 2009), raster data, environments, credentials and machine-specific paths. The public Rwanda-guide PDF and JSON are also excluded under this policy.
 
-The existing initial commit is retained as the parent of the forthcoming code commit; the supervisor's description is preserved at the top of this README. Publication requires explicit approval of the final file manifest. No force push is used.
+The supervisor's initial commit is preserved in the project history, and the description is retained at the top of this README. Release v1.0.0 was published from [42913fd](https://github.com/International-Potato-Center-CIP-Rwanda/RTC-VarSim/commit/42913fd54e69ee2d89d003fad0193bb3073f0a0d). No force push was used.
 
 ## Rwanda reference layer
 
@@ -234,4 +234,4 @@ Tolerance ranges are not independently verified. Reviewed official references su
 
 MIT is proposed for the RTC VarSim software because it preserves the permissions and notice obligations of the retained MIT upstream code. See [LICENSE](LICENSE), the unchanged [upstream license](upstream/LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The collective copyright label must be confirmed by the actual rights holders before publication. This proposal grants no rights to internal research data, institutional names/logos or separately licensed datasets. The external public guide remains CC BY 4.0; it is not bundled. Leaflet remains BSD-2-Clause.
 
-See [CHANGELOG.md](CHANGELOG.md) for the prepared changes, [RELEASE.md](RELEASE.md) for the pending initial-commit and annotated-tag procedure, and [RELEASE_MANIFEST.txt](RELEASE_MANIFEST.txt) for the exact prepared file list and checksums. The public destination is confirmed and its existing history has been fetched locally. Upload approval is still pending: no code commit, tag or release has been sent. The annotated tag must identify the reviewed code commit, after approval.
+See [CHANGELOG.md](CHANGELOG.md) for changes, [RELEASE.md](RELEASE.md) for publication details, and [RELEASE_MANIFEST.txt](RELEASE_MANIFEST.txt) for the source-only file list and working-copy checksums. [RTC VarSim v1.0.0](https://github.com/International-Potato-Center-CIP-Rwanda/RTC-VarSim/releases/tag/v1.0.0) is published. Its tag remains fixed on the original release commit; later documentation corrections on main do not move that tag.
