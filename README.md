@@ -8,7 +8,7 @@ Django research platform for potato and sweetpotato variety criteria across Afri
 
 ## Project method
 
-- Temperature: CHELSA 1991–2020 monthly means, compared inclusively with catalogue limits for every calendar month touched by the upper-bound crop cycle, starting on day 1 of the planting month. Temperature shows the number of cycle months in range.
+- Temperature: CHELSA 1991-2020 monthly means, compared inclusively with catalogue limits for every calendar month touched by the upper-bound crop cycle, starting on day 1 of the planting month. Temperature shows the number of cycle months in range.
 - Rainfall: sum of all twelve monthly normals, compared with the annual catalogue range. Cycle rainfall and its annual share are descriptive popup information.
 - Soil pH: SoilGrids pH in water at 0-30 cm, thickness-weighted arithmetic mean of the 0-5, 5-15 and 15-30 cm layers (weights 5/30, 10/30 and 15/30).
 - Summary: unweighted count of three satisfied criteria (0-3). Every cycle temperature month must be in range for that criterion to pass. Missing inputs make a cell not evaluable, never a failure. Sea and outside-Africa cells are transparent.
